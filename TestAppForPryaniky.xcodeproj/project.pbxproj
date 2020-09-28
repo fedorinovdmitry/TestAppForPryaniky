@@ -21,6 +21,7 @@
 		2D637FFF2521BF910064FAB9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D637FFD2521BF910064FAB9 /* LaunchScreen.storyboard */; };
 		2D63800A2521BF910064FAB9 /* TestAppForPryanikyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6380092521BF910064FAB9 /* TestAppForPryanikyTests.swift */; };
 		2D6380152521BF910064FAB9 /* TestAppForPryanikyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6380142521BF910064FAB9 /* TestAppForPryanikyUITests.swift */; };
+		2D9A08EB25227D9700FF8F4C /* MainListViewConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9A08EA25227D9700FF8F4C /* MainListViewConstraints.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		2D6380102521BF910064FAB9 /* TestAppForPryanikyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestAppForPryanikyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D6380142521BF910064FAB9 /* TestAppForPryanikyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAppForPryanikyUITests.swift; sourceTree = "<group>"; };
 		2D6380162521BF910064FAB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2D9A08EA25227D9700FF8F4C /* MainListViewConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewConstraints.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,7 +128,7 @@
 		2D407ADA25220430007E4116 /* MainModule */ = {
 			isa = PBXGroup;
 			children = (
-				2D407AD025220126007E4116 /* MainListViewController.swift */,
+				2D9A08EF25227DA000FF8F4C /* MainListView */,
 				2D422094252255F100E56068 /* MainListPresenter.swift */,
 				2D407AF225220C99007E4116 /* MainFlowNetworkService.swift */,
 			);
@@ -208,6 +210,15 @@
 				2D6380162521BF910064FAB9 /* Info.plist */,
 			);
 			path = TestAppForPryanikyUITests;
+			sourceTree = "<group>";
+		};
+		2D9A08EF25227DA000FF8F4C /* MainListView */ = {
+			isa = PBXGroup;
+			children = (
+				2D407AD025220126007E4116 /* MainListViewController.swift */,
+				2D9A08EA25227D9700FF8F4C /* MainListViewConstraints.swift */,
+			);
+			path = MainListView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -340,6 +351,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D407AD125220126007E4116 /* MainListViewController.swift in Sources */,
+				2D9A08EB25227D9700FF8F4C /* MainListViewConstraints.swift in Sources */,
 				2D637FF32521BF900064FAB9 /* AppDelegate.swift in Sources */,
 				2D407AE825220B1C007E4116 /* NetworkService.swift in Sources */,
 				2D637FF52521BF900064FAB9 /* SceneDelegate.swift in Sources */,
