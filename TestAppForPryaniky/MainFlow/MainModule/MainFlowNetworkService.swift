@@ -8,17 +8,15 @@
 import Foundation
 
 protocol MainModuleNetworkService {
-    
-    
+    func getMainList(completion: @escaping (MainResponce?) -> Void)
 }
 
-class MainModuleNetworkServiceImpl {
+class MainModuleNetworkServiceImpl: MainModuleNetworkService {
     
     // MARK: - Constants
     
     let mainListUrl = "https://pryaniky.com/static/json/sample.json"
 
-    
     // MARK: - Depencies
 
     var networkDataFetcher: DataFetcher

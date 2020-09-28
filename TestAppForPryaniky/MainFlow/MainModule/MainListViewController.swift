@@ -23,10 +23,8 @@ class MainListViewController: UIViewController {
         return tView
     }
     
-    var array = ["hz",
-                 "picture",
-                 "selector"]
-    
+    var viewsArray = [CommonContentType]()
+    let networkService: MainModuleNetworkService = MainModuleNetworkServiceImpl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,32 +32,50 @@ class MainListViewController: UIViewController {
         view.backgroundColor = .white
         view.addSubview(tableView)
         
-        let network = MainModuleNetworkServiceImpl()
-        network.getMainList { (mainResponces) in
-            print(mainResponces)
+        networkService.getMainList { [weak self] (mainResponce) in
+            guard let mainResponce = mainResponce,
+                  let self = self else {
+                print("error responce")
+                return
+            }
+            self.viewsArray = self.listBuilder(responce: mainResponce)
+            print(self.viewsArray)
         }
-        
         
     }
     
+    func listBuilder(responce: MainResponce) -> [CommonContentType] {
+        var viewsArray = [CommonContentType]()
+        let views = responce.view
+        let content = responce.content
+
+        for view in views {
+            for type in content {
+                if view.rawValue == type.name {
+                    viewsArray.append(type)
+                }
+            }
+        }
+        
+        return viewsArray
+    }
     
 
 }
 
 extension MainListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        array.count
+        viewsArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = array[indexPath.row]
+        
         return cell
     }
     
-    // по нажатию на ячейку
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(array[indexPath.row])
+        print(viewsArray[indexPath.row])
         
     }
     

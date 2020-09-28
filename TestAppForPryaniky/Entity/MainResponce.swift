@@ -7,13 +7,12 @@
 
 import Foundation
 
-
 // MARK: - MainResponce
 
 struct MainResponce: Decodable {
     
     var content: [CommonContentType]
-    var view: [String]
+    var view: [ContentType]
     
     enum MainResponceKeys: CodingKey {
         case data
@@ -27,21 +26,20 @@ struct MainResponce: Decodable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: MainResponceKeys.self)
-        view = try container.decode ([String].self, forKey: .view)
-        print(view)
+        view = ContentType.enumFromString(array: try container.decode ([String].self, forKey: .view))
         var contentArrayForType = try container.nestedUnkeyedContainer(forKey: MainResponceKeys.data)
         var content = [CommonContentType]()
         
         var contentArray = contentArrayForType
         while(!contentArrayForType.isAtEnd) {
             let item = try contentArrayForType.nestedContainer(keyedBy: ContentKeys.self)
-            let type = try item.decode(String.self, forKey: ContentKeys.name)
+            let type = ContentType.enumFrom(string: try item.decode(String.self, forKey: ContentKeys.name))
             switch type {
-            case "picture":
+            case .picture:
                 content.append(try contentArray.decode(PictureType.self))
-            case "hz":
+            case .hz:
                 content.append(try contentArray.decode(SimpleType.self))
-            case "selector":
+            case .selector:
                 content.append(try contentArray.decode(SelectorType.self))
             default:
                 try contentArray.skip()
@@ -53,7 +51,9 @@ struct MainResponce: Decodable {
     
 }
 
-protocol CommonContentType: Decodable {}
+protocol CommonContentType: Decodable {
+    var name: String { get }
+}
 
 
 // MARK: - Simple type (hz)
