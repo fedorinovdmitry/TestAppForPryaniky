@@ -11,7 +11,11 @@ protocol MainListViewControllerProtocol: class {
     func setMainList(mainList: [CommonContentType])
 }
 
-class MainListViewController: UIViewController {
+class MainListViewController: UIViewController, CellPopoverDelegate {
+    func showVC(vc: UIViewController) {
+        present(vc, animated: true, completion: nil)
+    }
+    
     
     // MARK: - Public Properties
     
@@ -49,7 +53,7 @@ class MainListViewController: UIViewController {
     
     // MARK: Setup View
     private func setupView() {
-        view.backgroundColor = .white
+        view.backgroundColor = #colorLiteral(red: 1, green: 0.6634957194, blue: 0, alpha: 1)
     }
     
     // MARK: Setup TableView
@@ -62,6 +66,11 @@ class MainListViewController: UIViewController {
         tableView.contentInset.top = topInset
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(HzMainListCellView.self, forCellReuseIdentifier: HzMainListCellView.reuseId)
+        tableView.register(PictureMainListCellView.self, forCellReuseIdentifier: PictureMainListCellView.reuseId)
+        tableView.register(SelectorMainListCellView.self, forCellReuseIdentifier: SelectorMainListCellView.reuseId)
+        
+        
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
         tableView.dataSource = self
@@ -94,21 +103,41 @@ extension MainListViewController: UITableViewDelegate, UITableViewDataSource {
         return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(mainList.count)
         return mainList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        print(mainList[indexPath.row].name)
-        cell.textLabel?.text = mainList[indexPath.row].name
-        cell.backgroundColor = .orange
-        return cell
+        
+        switch mainList[indexPath.row].name {
+        case ContentType.hz.rawValue:
+            let cell = tableView.dequeueReusableCell(withIdentifier: HzMainListCellView.reuseId, for: indexPath) as! HzMainListCellView
+            cell.set(content: mainList[indexPath.row] as! SimpleType)
+            return cell
+        case ContentType.picture.rawValue:
+            let cell = tableView.dequeueReusableCell(withIdentifier: PictureMainListCellView.reuseId, for: indexPath) as! PictureMainListCellView
+            cell.set(content: mainList[indexPath.row] as! PictureType)
+            return cell
+        case ContentType.selector.rawValue:
+            let cell = tableView.dequeueReusableCell(withIdentifier: SelectorMainListCellView.reuseId, for: indexPath) as! SelectorMainListCellView
+            cell.set(content: mainList[indexPath.row] as! SelectorType)
+            cell.delegate = self
+            return cell
+        default:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            cell.textLabel?.text = mainList[indexPath.row].name
+            cell.backgroundColor = .clear
+            return cell
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(mainList[indexPath.row])
         
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 400
     }
     
 }
