@@ -7,17 +7,23 @@
 
 import UIKit
 
+protocol PopTableEventDelegate: class {
+    func dismissWith(variant: Variant)
+}
+
 class SelectorPopTableTableViewController: UITableViewController {
 
-    var array = ["text row1",
-                 "text row2",
-                 "text row3"]
+    var array = [Variant]()
     
-//    weak var delegate: PopTableEventDelegate? = nil
+    weak var delegate: PopTableEventDelegate? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.isScrollEnabled = false
+        let topInset: CGFloat = 12
+        tableView.separatorStyle = .none
+        tableView.contentInset.top = topInset
+        
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
@@ -28,13 +34,11 @@ class SelectorPopTableTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
         
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return array.count
     }
 
@@ -42,14 +46,14 @@ class SelectorPopTableTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 
-        cell.textLabel?.text = array[indexPath.row]
+        cell.textLabel?.text = "id - " + String(array[indexPath.row].id) + ": '" + array[indexPath.row].text + "'"
+        cell.selectionStyle = .none
 
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        delegate?.dismissWith(str: array[indexPath.row])
-        print("dismiss")
+        delegate?.dismissWith(variant: array[indexPath.row])
     }
 
 }

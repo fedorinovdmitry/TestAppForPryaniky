@@ -27,11 +27,11 @@ final class PictureMainListCellView: UITableViewCell {
     
     // MARK: - Set Data
 
-    func set(content: PictureType) {
+    func set(content: PictureType, textViewFrame: CGRect?) {
         pictureLabel.text = content.name
         pictureImageView.set(imageURL: content.data.url)
         pictureTextView.text = content.data.text
-        
+        pictureTextView.frame = textViewFrame ?? CGRect.zero
     }
     
     // MARK: - Create Elements
@@ -51,8 +51,6 @@ final class PictureMainListCellView: UITableViewCell {
         label.font = UIFont.appFont(type: .avenirTitle)
         label.textAlignment = .center
         
-        label.backgroundColor = .yellow
-        
         return label
     }()
     
@@ -71,7 +69,7 @@ final class PictureMainListCellView: UITableViewCell {
          textView.isSelectable = true
          textView.isUserInteractionEnabled = true
          textView.isEditable = false
-         textView.translatesAutoresizingMaskIntoConstraints = false
+//         textView.translatesAutoresizingMaskIntoConstraints = false
          
          textView.backgroundColor = #colorLiteral(red: 0.9110719562, green: 0.9056561589, blue: 0.9152351022, alpha: 1)
          textView.layer.shadowOffset = CGSize(width: 2.5, height: 3)
@@ -96,23 +94,26 @@ final class PictureMainListCellView: UITableViewCell {
         // containerView constraints
         containerView.fillSuperview(padding: MainListConstants.containerViewInsets)
         
+        let leftInset = MainListConstants.cellContentLeftInset
+        let rightInset = MainListConstants.cellContentRightInset
+        
         // pictureLabel constraints
-        pictureLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5).isActive = true
-        pictureLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10).isActive = true
-        pictureLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10).isActive = true
-        pictureLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        pictureLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: MainListConstants.titleLabelTopInset).isActive = true
+        pictureLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: leftInset).isActive = true
+        pictureLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -rightInset).isActive = true
+        pictureLabel.heightAnchor.constraint(equalToConstant: MainListConstants.titleLabelHeight).isActive = true
         
         // pictureImageView
-        pictureImageView.topAnchor.constraint(equalTo: pictureLabel.bottomAnchor, constant: 10).isActive = true
-        pictureImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10).isActive = true
-        pictureImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10).isActive = true
-        pictureImageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        pictureImageView.topAnchor.constraint(equalTo: pictureLabel.bottomAnchor, constant: MainListConstants.cellContentSpacing).isActive = true
+        pictureImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: leftInset).isActive = true
+        pictureImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -rightInset).isActive = true
+        pictureImageView.heightAnchor.constraint(equalToConstant: MainListConstants.pictureHeight).isActive = true
         
         // pictureTextView constraints
-        pictureTextView.topAnchor.constraint(equalTo: pictureImageView.bottomAnchor, constant: 15).isActive = true
-        pictureTextView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10).isActive = true
-        pictureTextView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10).isActive = true
-        pictureTextView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -5).isActive = true
+//        pictureTextView.topAnchor.constraint(equalTo: pictureImageView.bottomAnchor, constant: MainListConstants.cellContentSpacing).isActive = true
+//        pictureTextView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: leftInset).isActive = true
+//        pictureTextView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -rightInset).isActive = true
+//        pictureTextView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -MainListConstants.cellContentBottomInset).isActive = true
         
     }
     

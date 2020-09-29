@@ -11,7 +11,7 @@ import Foundation
 
 struct MainResponce: Decodable {
     
-    var content: [CommonContentType]
+    var content: [CommonContentFromPryaniki]
     var view: [ContentType]
     
     enum MainResponceKeys: CodingKey {
@@ -28,7 +28,7 @@ struct MainResponce: Decodable {
         let container = try decoder.container(keyedBy: MainResponceKeys.self)
         view = ContentType.enumFromString(array: try container.decode ([String].self, forKey: .view))
         var contentArrayForType = try container.nestedUnkeyedContainer(forKey: MainResponceKeys.data)
-        var content = [CommonContentType]()
+        var content = [CommonContentFromPryaniki]()
         
         var contentArray = contentArrayForType
         while(!contentArrayForType.isAtEnd) {
@@ -38,7 +38,10 @@ struct MainResponce: Decodable {
             case .picture:
                 content.append(try contentArray.decode(PictureType.self))
             case .hz:
-                content.append(try contentArray.decode(SimpleType.self))
+                let check = try contentArray.decode(SimpleType.self)
+                //разкоментите, чтобы проаверить динамический размер ячейки, только лет на вар смените
+//                check.data.text = "213213123123jkh3kj13gh21g3kj12h3jk2h13jk2h13kj23ghj12 2h13k 12j3 h12 kh3j1k 3 k1j"
+                content.append(check)
             case .selector:
                 content.append(try contentArray.decode(SelectorType.self))
             default:
@@ -51,14 +54,13 @@ struct MainResponce: Decodable {
     
 }
 
-protocol CommonContentType: Decodable {
+protocol CommonContentFromPryaniki: Decodable {
     var name: String { get }
 }
 
-
 // MARK: - Simple type (hz)
 
-struct SimpleType: CommonContentType {
+struct SimpleType: CommonContentFromPryaniki {
     var name: String
     var data: HzDataType
 }
@@ -68,7 +70,7 @@ struct HzDataType: Decodable {
 
 // MARK: - Picture type (picture)
 
-struct PictureType: CommonContentType {
+struct PictureType: CommonContentFromPryaniki {
     var name: String
     var data: PictureDataType
 }
@@ -79,7 +81,7 @@ struct PictureDataType: Decodable {
 
 // MARK: - Selector type (selector)
 
-struct SelectorType: CommonContentType {
+struct SelectorType: CommonContentFromPryaniki {
     var name: String
     var data: SelectorDataType
 }

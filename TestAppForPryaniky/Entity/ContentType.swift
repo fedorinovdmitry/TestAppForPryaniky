@@ -11,6 +11,7 @@ enum ContentType: String, CaseIterable {
     case picture
     case hz
     case selector
+    case unknown
     
     static func enumFrom(string: String) -> ContentType? {
         for type in ContentType.allCases {
@@ -30,4 +31,21 @@ enum ContentType: String, CaseIterable {
         }
         return contentTypeArray
     }
+}
+
+extension CommonContentFromPryaniki {
+
+    var type: ContentType {
+        switch name {
+        case "hz":
+            return .hz
+        case "picture":
+            return .picture
+        case "selector":
+            return .selector
+        default:
+            return .unknown
+        }
+    }
+    
 }

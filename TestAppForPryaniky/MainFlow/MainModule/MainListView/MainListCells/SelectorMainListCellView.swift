@@ -8,8 +8,8 @@
 import UIKit
 
 protocol CellPopoverDelegate: class {
-    func showVC(vc: UIViewController)
-    
+    func showPopoverVC(vc: UIViewController)
+    func closePopoverVC()
 }
 
 final class SelectorMainListCellView: UITableViewCell {
@@ -17,6 +17,8 @@ final class SelectorMainListCellView: UITableViewCell {
     static let reuseId = "SelectorMainListCellView"
     
     weak var delegate: CellPopoverDelegate? = nil
+    
+    private var content: SelectorType? = nil
     
     // MARK: - Init
 
@@ -37,36 +39,46 @@ final class SelectorMainListCellView: UITableViewCell {
     
     @objc func selectorButtonTouch() {
         let selectorPopVc = SelectorPopTableTableViewController()
+        selectorPopVc.array = content?.data.variants ?? [Variant]()
         selectorPopVc.modalPresentationStyle = .popover
+        selectorPopVc.delegate = self
         
         let popOver = selectorPopVc.popoverPresentationController
         popOver?.delegate = self
         popOver?.sourceView = self.selectorButton
-        popOver?.sourceRect = CGRect(x: self.selectorButton.bounds.midX, y: self.selectorButton.bounds.maxY, width: 0, height: 0)
+        popOver?.sourceRect = CGRect(x: self.selectorButton.bounds.midX,
+                                     y: self.selectorButton.bounds.maxY,
+                                     width: 0,
+                                     height: 0)
         selectorPopVc.preferredContentSize = CGSize(width: 250, height: 250)
         
         guard let delegate = delegate else {
             print("delegate nil")
             return
         }
-        delegate.showVC(vc: selectorPopVc)
+        delegate.showPopoverVC(vc: selectorPopVc)
         
-        print("gg")
     }
     
     // MARK: - Set Data
 
     func set(content: SelectorType) {
         selectorLabel.text = content.name
-        selectorButton.setTitle(content.name, for: .normal)
+        self.content = content
         
+        let selectedId = content.data.selectedId
+        for variant in content.data.variants {
+            if variant.id == selectedId {
+                selectorButton.setTitle(variant.text, for: .normal)
+            }
+        }
     }
     
     // MARK: - Create Elements
 
     let containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.8600171233)
+        view.backgroundColor = .white
         view.layer.cornerRadius = 10
         view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -79,14 +91,12 @@ final class SelectorMainListCellView: UITableViewCell {
         label.font = UIFont.appFont(type: .avenirTitle)
         label.textAlignment = .center
         
-        label.backgroundColor = .yellow
-        
         return label
     }()
     
     let selectorButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = UIFont.appFont(type: .avenirAnd(customScale: 1.3))
+        button.titleLabel?.font = UIFont.appFont(type: .avenir)
         button.setTitleColor(.black, for: .normal)
         button.setImage(UIImage(named: "arrow"), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
@@ -117,17 +127,20 @@ final class SelectorMainListCellView: UITableViewCell {
         // containerView constraints
         containerView.fillSuperview(padding: MainListConstants.containerViewInsets)
         
+        let leftInset = MainListConstants.cellContentLeftInset
+        let rightInset = MainListConstants.cellContentRightInset
+        
         // selectorLabel constraints
-        selectorLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5).isActive = true
-        selectorLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10).isActive = true
-        selectorLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10).isActive = true
-        selectorLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        selectorLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: MainListConstants.titleLabelTopInset).isActive = true
+        selectorLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: leftInset).isActive = true
+        selectorLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -rightInset).isActive = true
+        selectorLabel.heightAnchor.constraint(equalToConstant: MainListConstants.titleLabelHeight).isActive = true
         
         // selectorButton constraints
-        selectorButton.topAnchor.constraint(equalTo: selectorLabel.bottomAnchor, constant: 15).isActive = true
-        selectorButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10).isActive = true
-        selectorButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10).isActive = true
-        selectorButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        selectorButton.topAnchor.constraint(equalTo: selectorLabel.bottomAnchor, constant: MainListConstants.cellContentSpacing).isActive = true
+        selectorButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: leftInset).isActive = true
+        selectorButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -rightInset).isActive = true
+        selectorButton.heightAnchor.constraint(equalToConstant: MainListConstants.selectorButtonHeight).isActive = true
         
     }
 }
@@ -143,3 +156,9 @@ extension SelectorMainListCellView: UIPopoverPresentationControllerDelegate {
     
 }
 
+extension SelectorMainListCellView: PopTableEventDelegate {
+    func dismissWith(variant: Variant) {
+        selectorButton.setTitle(variant.text, for: .normal)
+        delegate?.closePopoverVC()
+    }
+}

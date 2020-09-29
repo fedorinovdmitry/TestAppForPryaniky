@@ -8,13 +8,10 @@
 import UIKit
 
 protocol MainListViewControllerProtocol: class {
-    func setMainList(mainList: [CommonContentType])
+    func setMainListViewModel(mainListViewModel: MainListViewModel)
 }
 
-class MainListViewController: UIViewController, CellPopoverDelegate {
-    func showVC(vc: UIViewController) {
-        present(vc, animated: true, completion: nil)
-    }
+class MainListViewController: UIViewController {
     
     
     // MARK: - Public Properties
@@ -24,8 +21,10 @@ class MainListViewController: UIViewController, CellPopoverDelegate {
     // MARK: - Private Properties
     
     private var presenter: MainListPresenter!
-    private var mainList: [CommonContentType]!
     
+    private var mainListViewModel: MainListViewModel!
+    
+    private weak var popoverVC: UIViewController? = nil
     
     // MARK: - LifeStyle ViewController
     
@@ -59,7 +58,7 @@ class MainListViewController: UIViewController, CellPopoverDelegate {
     // MARK: Setup TableView
 
     private func setupTable() {
-        mainList = [CommonContentType]()
+        mainListViewModel = MainListViewModel(content: [MainListContentModel]())
         tableView = UITableView()
         
         let topInset: CGFloat = 8
@@ -86,13 +85,11 @@ class MainListViewController: UIViewController, CellPopoverDelegate {
 // MARK: - MainListViewControllerProtocol
 
 extension MainListViewController: MainListViewControllerProtocol {
-    
-    func setMainList(mainList: [CommonContentType]) {
+    func setMainListViewModel(mainListViewModel: MainListViewModel) {
         DispatchQueue.main.async {
-            self.mainList = mainList
+            self.mainListViewModel = mainListViewModel
             self.tableView.reloadData()
         }
-        
     }
 }
 
@@ -103,28 +100,30 @@ extension MainListViewController: UITableViewDelegate, UITableViewDataSource {
         return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return mainList.count
+        return mainListViewModel.content.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch mainList[indexPath.row].name {
-        case ContentType.hz.rawValue:
+        let cellContent = mainListViewModel.content[indexPath.row].objectForCell
+        
+        switch cellContent.type {
+        case .hz:
             let cell = tableView.dequeueReusableCell(withIdentifier: HzMainListCellView.reuseId, for: indexPath) as! HzMainListCellView
-            cell.set(content: mainList[indexPath.row] as! SimpleType)
+            cell.set(content: cellContent as! SimpleType, textViewFrame: mainListViewModel.content[indexPath.row].cellSize.textFieldFrame)
             return cell
-        case ContentType.picture.rawValue:
+        case .picture:
             let cell = tableView.dequeueReusableCell(withIdentifier: PictureMainListCellView.reuseId, for: indexPath) as! PictureMainListCellView
-            cell.set(content: mainList[indexPath.row] as! PictureType)
+            cell.set(content: cellContent as! PictureType, textViewFrame: mainListViewModel.content[indexPath.row].cellSize.textFieldFrame)
             return cell
-        case ContentType.selector.rawValue:
+        case .selector:
             let cell = tableView.dequeueReusableCell(withIdentifier: SelectorMainListCellView.reuseId, for: indexPath) as! SelectorMainListCellView
-            cell.set(content: mainList[indexPath.row] as! SelectorType)
+            cell.set(content: cellContent as! SelectorType)
             cell.delegate = self
             return cell
-        default:
+        case .unknown:
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            cell.textLabel?.text = mainList[indexPath.row].name
+            cell.textLabel?.text = cellContent.name
             cell.backgroundColor = .clear
             return cell
         }
@@ -132,15 +131,31 @@ extension MainListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(mainList[indexPath.row])
+        print(mainListViewModel.content[indexPath.row].objectForCell.name)
         
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 400
+        return mainListViewModel.content[indexPath.row].cellSize.heightForCell
     }
     
 }
+
+
+// MARK: - CellPopoverDelegate
+
+extension MainListViewController: CellPopoverDelegate {
+    func showPopoverVC(vc: UIViewController) {
+        present(vc, animated: true, completion: nil)
+        popoverVC = vc
+    }
+    
+    func closePopoverVC() {
+        popoverVC?.dismiss(animated: true, completion: nil)
+    }
+    
+}
+
 
 // MARK: - SwiftUI
 

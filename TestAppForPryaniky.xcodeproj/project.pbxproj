@@ -31,6 +31,9 @@
 		2D67C8BD25233119000050DC /* PictureMainListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D67C8BC25233119000050DC /* PictureMainListCellView.swift */; };
 		2D67C8C22523312E000050DC /* SelectorMainListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D67C8C12523312E000050DC /* SelectorMainListCellView.swift */; };
 		2D848594252379B0007456CB /* SelectorPopTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D848593252379B0007456CB /* SelectorPopTableViewController.swift */; };
+		2D84859925237A78007456CB /* MainViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D84859825237A78007456CB /* MainViewModels.swift */; };
+		2D88E4C5252385FA00AF01EB /* MainListCellsLayoutCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D88E4C4252385FA00AF01EB /* MainListCellsLayoutCalculator.swift */; };
+		2D88E4D32523976100AF01EB /* String+Height.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D88E4D22523976100AF01EB /* String+Height.swift */; };
 		2D9A08EB25227D9700FF8F4C /* MainListViewConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9A08EA25227D9700FF8F4C /* MainListViewConstraints.swift */; };
 /* End PBXBuildFile section */
 
@@ -82,6 +85,9 @@
 		2D67C8BC25233119000050DC /* PictureMainListCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureMainListCellView.swift; sourceTree = "<group>"; };
 		2D67C8C12523312E000050DC /* SelectorMainListCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorMainListCellView.swift; sourceTree = "<group>"; };
 		2D848593252379B0007456CB /* SelectorPopTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorPopTableViewController.swift; sourceTree = "<group>"; };
+		2D84859825237A78007456CB /* MainViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModels.swift; sourceTree = "<group>"; };
+		2D88E4C4252385FA00AF01EB /* MainListCellsLayoutCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListCellsLayoutCalculator.swift; sourceTree = "<group>"; };
+		2D88E4D22523976100AF01EB /* String+Height.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Height.swift"; sourceTree = "<group>"; };
 		2D9A08EA25227D9700FF8F4C /* MainListViewConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewConstraints.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -146,6 +152,7 @@
 				2D326BF825233AAF0037CC70 /* UIView+addSub.swift */,
 				2D326BFD25233BCF0037CC70 /* Constraints.swift */,
 				2D326C03252352C10037CC70 /* WebImageView.swift */,
+				2D88E4D22523976100AF01EB /* String+Height.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -165,6 +172,8 @@
 				2D422094252255F100E56068 /* MainListPresenter.swift */,
 				2D407AF225220C99007E4116 /* MainFlowNetworkService.swift */,
 				2D326BF3252339700037CC70 /* MainListConstants.swift */,
+				2D84859825237A78007456CB /* MainViewModels.swift */,
+				2D848593252379B0007456CB /* SelectorPopTableViewController.swift */,
 			);
 			path = MainModule;
 			sourceTree = "<group>";
@@ -252,7 +261,7 @@
 				2D67C8B7252330FF000050DC /* HzMainListCellView.swift */,
 				2D67C8BC25233119000050DC /* PictureMainListCellView.swift */,
 				2D67C8C12523312E000050DC /* SelectorMainListCellView.swift */,
-				2D848593252379B0007456CB /* SelectorPopTableViewController.swift */,
+				2D88E4C4252385FA00AF01EB /* MainListCellsLayoutCalculator.swift */,
 			);
 			path = MainListCells;
 			sourceTree = "<group>";
@@ -405,14 +414,17 @@
 				2D637FF32521BF900064FAB9 /* AppDelegate.swift in Sources */,
 				2D407AE825220B1C007E4116 /* NetworkService.swift in Sources */,
 				2D637FF52521BF900064FAB9 /* SceneDelegate.swift in Sources */,
+				2D88E4D32523976100AF01EB /* String+Height.swift in Sources */,
 				2D326BE9252335F00037CC70 /* UIDevice+.swift in Sources */,
 				2D67C8BD25233119000050DC /* PictureMainListCellView.swift in Sources */,
 				2D422095252255F100E56068 /* MainListPresenter.swift in Sources */,
 				2D407AFB252211BC007E4116 /* MainResponce.swift in Sources */,
 				2D326C04252352C10037CC70 /* WebImageView.swift in Sources */,
 				2D848594252379B0007456CB /* SelectorPopTableViewController.swift in Sources */,
+				2D84859925237A78007456CB /* MainViewModels.swift in Sources */,
 				2D4220892522399F00E56068 /* UnkeyedDecodingContainer+Skip.swift in Sources */,
 				2D407AED25220BD1007E4116 /* NetworkDataFetcher.swift in Sources */,
+				2D88E4C5252385FA00AF01EB /* MainListCellsLayoutCalculator.swift in Sources */,
 				2D326BF4252339700037CC70 /* MainListConstants.swift in Sources */,
 				2D67C8B8252330FF000050DC /* HzMainListCellView.swift in Sources */,
 				2D407AF325220C99007E4116 /* MainFlowNetworkService.swift in Sources */,
@@ -594,7 +606,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = df.TestAppForPryaniky;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -613,7 +625,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = df.TestAppForPryaniky;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

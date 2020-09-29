@@ -29,9 +29,10 @@ final class HzMainListCellView: UITableViewCell {
     
     // MARK: - Set Data
 
-    func set(content: SimpleType) {
+    func set(content: SimpleType, textViewFrame: CGRect?) {
         hzLabel.text = content.name
         contentTextView.text = content.data.text
+        contentTextView.frame = textViewFrame ?? CGRect.zero
         
     }
     
@@ -52,8 +53,6 @@ final class HzMainListCellView: UITableViewCell {
         label.font = UIFont.appFont(type: .avenirTitle)
         label.textAlignment = .center
         
-        label.backgroundColor = .yellow
-        
         return label
     }()
     
@@ -64,7 +63,7 @@ final class HzMainListCellView: UITableViewCell {
         textView.isSelectable = true
         textView.isUserInteractionEnabled = true
         textView.isEditable = false
-        textView.translatesAutoresizingMaskIntoConstraints = false
+//        textView.translatesAutoresizingMaskIntoConstraints = false
         
         textView.backgroundColor = #colorLiteral(red: 0.9110719562, green: 0.9056561589, blue: 0.9152351022, alpha: 1)
         textView.layer.shadowOffset = CGSize(width: 2.5, height: 3)
@@ -86,20 +85,24 @@ final class HzMainListCellView: UITableViewCell {
         addSubview(containerView)
         containerView.addSubviews(views: [hzLabel, contentTextView])
         
+        let leftInset = MainListConstants.cellContentLeftInset
+        let rightInset = MainListConstants.cellContentRightInset
+        
         // containerView constraints
         containerView.fillSuperview(padding: MainListConstants.containerViewInsets)
         
         // hzLabel constraints
-        hzLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5).isActive = true
-        hzLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10).isActive = true
-        hzLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10).isActive = true
-        hzLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        hzLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: MainListConstants.titleLabelTopInset).isActive = true
+        hzLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: leftInset).isActive = true
+        hzLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -rightInset).isActive = true
+        hzLabel.heightAnchor.constraint(equalToConstant: MainListConstants.titleLabelHeight).isActive = true
         
         // contentTextView constraints
-        contentTextView.topAnchor.constraint(equalTo: hzLabel.bottomAnchor, constant: 15).isActive = true
-        contentTextView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10).isActive = true
-        contentTextView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10).isActive = true
-        contentTextView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -5).isActive = true
+        // TODO: delete
+//        contentTextView.topAnchor.constraint(equalTo: hzLabel.bottomAnchor, constant: MainListConstants.cellContentSpacing).isActive = true
+//        contentTextView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: leftInset).isActive = true
+//        contentTextView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -rightInset).isActive = true
+//        contentTextView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -MainListConstants.cellContentBottomInset).isActive = true
         
     }
 }
