@@ -132,7 +132,9 @@ extension MainListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(mainListViewModel.content[indexPath.row].objectForCell.name)
-        
+        let alert = UIAlertController(title: mainListViewModel.content[indexPath.row].objectForCell.name, message: "инициировал событие", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
