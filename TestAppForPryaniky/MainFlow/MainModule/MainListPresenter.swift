@@ -7,16 +7,12 @@
 
 import Foundation
 
+///он как бы и презентер и как бы итерактор, может даже и вью модел))),а вообще решил не городить полноценную сложную архитектру для тестового задания, чтобы было проще в читаемости, так как кода не много, и это просто MVC, а это просто делегат, который выполняет бизнес логику для view controller
 protocol MainListPresenter: class {
     func configureView()
-    
 }
 
 class MainListPresenterImpl: MainListPresenter {
-    
-    // MARK: - Custom types
-    
-    // MARK: - Constants
     
     // MARK: - Public Properties
     
@@ -35,10 +31,6 @@ class MainListPresenterImpl: MainListPresenter {
     required init(view: MainListViewControllerProtocol) {
         self.view = view
     }
-    
-    // MARK: - LifeStyle ViewController
-    
-    // MARK: - IBAction
     
     // MARK: - Public methods
     

@@ -63,11 +63,9 @@ final class HzMainListCellView: UITableViewCell {
         textView.isSelectable = true
         textView.isUserInteractionEnabled = true
         textView.isEditable = false
-//        textView.translatesAutoresizingMaskIntoConstraints = false
         
         textView.backgroundColor = #colorLiteral(red: 0.9110719562, green: 0.9056561589, blue: 0.9152351022, alpha: 1)
         textView.layer.shadowOffset = CGSize(width: 2.5, height: 3)
-//        textView.layer.cornerRadius = textView.frame.size.height/2
         textView.clipsToBounds = false
         textView.layer.shadowOpacity = 0.2
         textView.layer.shadowColor = UIColor.black.cgColor
@@ -98,11 +96,7 @@ final class HzMainListCellView: UITableViewCell {
         hzLabel.heightAnchor.constraint(equalToConstant: MainListConstants.titleLabelHeight).isActive = true
         
         // contentTextView constraints
-        // TODO: delete
-//        contentTextView.topAnchor.constraint(equalTo: hzLabel.bottomAnchor, constant: MainListConstants.cellContentSpacing).isActive = true
-//        contentTextView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: leftInset).isActive = true
-//        contentTextView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -rightInset).isActive = true
-//        contentTextView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -MainListConstants.cellContentBottomInset).isActive = true
+        // this view support autosizing ... look in MainListCellsLayoutCalculator
         
     }
 }

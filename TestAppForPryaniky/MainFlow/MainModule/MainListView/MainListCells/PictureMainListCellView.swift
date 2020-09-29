@@ -69,7 +69,6 @@ final class PictureMainListCellView: UITableViewCell {
          textView.isSelectable = true
          textView.isUserInteractionEnabled = true
          textView.isEditable = false
-//         textView.translatesAutoresizingMaskIntoConstraints = false
          
          textView.backgroundColor = #colorLiteral(red: 0.9110719562, green: 0.9056561589, blue: 0.9152351022, alpha: 1)
          textView.layer.shadowOffset = CGSize(width: 2.5, height: 3)
@@ -110,10 +109,7 @@ final class PictureMainListCellView: UITableViewCell {
         pictureImageView.heightAnchor.constraint(equalToConstant: MainListConstants.pictureHeight).isActive = true
         
         // pictureTextView constraints
-//        pictureTextView.topAnchor.constraint(equalTo: pictureImageView.bottomAnchor, constant: MainListConstants.cellContentSpacing).isActive = true
-//        pictureTextView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: leftInset).isActive = true
-//        pictureTextView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -rightInset).isActive = true
-//        pictureTextView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -MainListConstants.cellContentBottomInset).isActive = true
+        // this view support autosizing ... look in MainListCellsLayoutCalculator
         
     }
     

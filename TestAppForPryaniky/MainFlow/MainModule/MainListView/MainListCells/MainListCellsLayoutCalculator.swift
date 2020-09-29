@@ -7,6 +7,7 @@
 
 import UIKit
 
+///данный класс рассчитывает высоту ячейки и динмамических элементов(текствью)
 protocol MainListCellsLayoutCalculator {
     func getCellSize(content: CommonContentFromPryaniki) -> MainListCellSize
 }

@@ -7,12 +7,12 @@
 
 import UIKit
 
+///загружает данные из призентера
 protocol MainListViewControllerProtocol: class {
     func setMainListViewModel(mainListViewModel: MainListViewModel)
 }
 
 class MainListViewController: UIViewController {
-    
     
     // MARK: - Public Properties
     
@@ -36,9 +36,6 @@ class MainListViewController: UIViewController {
         
     }
     
-    // MARK: - Public methods
-    
-    
     // MARK: - Private methods
     
     private func setupViews() {
@@ -49,8 +46,8 @@ class MainListViewController: UIViewController {
         setupConstraints()
     }
     
-    
     // MARK: Setup View
+    
     private func setupView() {
         view.backgroundColor = #colorLiteral(red: 1, green: 0.6634957194, blue: 0, alpha: 1)
     }
@@ -69,7 +66,6 @@ class MainListViewController: UIViewController {
         tableView.register(PictureMainListCellView.self, forCellReuseIdentifier: PictureMainListCellView.reuseId)
         tableView.register(SelectorMainListCellView.self, forCellReuseIdentifier: SelectorMainListCellView.reuseId)
         
-        
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
         tableView.dataSource = self
@@ -77,7 +73,6 @@ class MainListViewController: UIViewController {
         
     }
     
-
 }
 
 // MARK: - Extensions
@@ -105,29 +100,34 @@ extension MainListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cellContent = mainListViewModel.content[indexPath.row].objectForCell
+        let cellContent = mainListViewModel.content[indexPath.row]
         
-        switch cellContent.type {
+        return getCellforContent(content: cellContent, indexPath: indexPath)
+        
+    }
+    
+    func getCellforContent(content: MainListContentModel, indexPath: IndexPath) -> UITableViewCell {
+        
+        switch content.objectForCell.type {
         case .hz:
             let cell = tableView.dequeueReusableCell(withIdentifier: HzMainListCellView.reuseId, for: indexPath) as! HzMainListCellView
-            cell.set(content: cellContent as! SimpleType, textViewFrame: mainListViewModel.content[indexPath.row].cellSize.textFieldFrame)
+            cell.set(content: content.objectForCell as! SimpleType, textViewFrame: content.cellSize.textFieldFrame)
             return cell
         case .picture:
             let cell = tableView.dequeueReusableCell(withIdentifier: PictureMainListCellView.reuseId, for: indexPath) as! PictureMainListCellView
-            cell.set(content: cellContent as! PictureType, textViewFrame: mainListViewModel.content[indexPath.row].cellSize.textFieldFrame)
+            cell.set(content: content.objectForCell as! PictureType, textViewFrame: content.cellSize.textFieldFrame)
             return cell
         case .selector:
             let cell = tableView.dequeueReusableCell(withIdentifier: SelectorMainListCellView.reuseId, for: indexPath) as! SelectorMainListCellView
-            cell.set(content: cellContent as! SelectorType)
+            cell.set(content: content.objectForCell as! SelectorType)
             cell.delegate = self
             return cell
         case .unknown:
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            cell.textLabel?.text = cellContent.name
+            cell.textLabel?.text = content.objectForCell.name
             cell.backgroundColor = .clear
             return cell
         }
-        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -156,21 +156,3 @@ extension MainListViewController: CellPopoverDelegate {
     
 }
 
-
-// MARK: - SwiftUI
-
-import SwiftUI
-
-struct MainListViewControllerProvider: PreviewProvider {
-    static var previews: some View {
-        ContainerView().edgesIgnoringSafeArea(.all)
-    }
-    struct ContainerView: UIViewControllerRepresentable {
-        typealias UIViewControllerType = MainListViewController
-        let viewController = MainListViewController()
-        func makeUIViewController(context: Context) -> MainListViewController {
-            return viewController
-        }
-        func updateUIViewController(_ uiViewController: MainListViewController, context: Context) {}
-    }
-}

@@ -119,6 +119,7 @@
 		2D326BE4252335440037CC70 /* AppUISettings */ = {
 			isa = PBXGroup;
 			children = (
+				2D326BF3252339700037CC70 /* MainListConstants.swift */,
 				2D326BDC252335230037CC70 /* UIFonts+app.swift */,
 			);
 			path = AppUISettings;
@@ -171,7 +172,6 @@
 				2D9A08EF25227DA000FF8F4C /* MainListView */,
 				2D422094252255F100E56068 /* MainListPresenter.swift */,
 				2D407AF225220C99007E4116 /* MainFlowNetworkService.swift */,
-				2D326BF3252339700037CC70 /* MainListConstants.swift */,
 				2D84859825237A78007456CB /* MainViewModels.swift */,
 				2D848593252379B0007456CB /* SelectorPopTableViewController.swift */,
 			);

@@ -12,9 +12,7 @@ struct MainListViewModel {
 }
 
 struct MainListContentModel {
-    
     var objectForCell: CommonContentFromPryaniki
-    
     var cellSize: MainListCellSize
 }
 

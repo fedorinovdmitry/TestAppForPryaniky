@@ -8,7 +8,8 @@
 import Foundation
 
 protocol DataFetcher {
-    func fetchJSONData<T: Decodable>(urlString: String, response: @escaping (T?) -> Void)
+    func fetchJSONData<T: Decodable>(urlString: String,
+                                     response: @escaping (T?) -> Void)
 }
 
 class NetworkDataFetcher: DataFetcher {
@@ -19,7 +20,8 @@ class NetworkDataFetcher: DataFetcher {
         self.networking = networking
     }
     
-    func fetchJSONData<T: Decodable>(urlString: String, response: @escaping (T?) -> Void) {
+    func fetchJSONData<T: Decodable>(urlString: String,
+                                     response: @escaping (T?) -> Void) {
         
         networking.request(urlString: urlString) { (data, error) in
             if let error = error {
@@ -28,17 +30,20 @@ class NetworkDataFetcher: DataFetcher {
             }
 
             
-            let decoded = self.decodeJSON(type: T.self, from: data)
+            let decoded = self.decodeJSON(type: T.self,
+                                          from: data)
             response(decoded)
 
         }
     }
     
-    func decodeJSON<T: Decodable>(type: T.Type, from: Data?) -> T? {
+    func decodeJSON<T: Decodable>(type: T.Type,
+                                  from: Data?) -> T? {
         let decoder = JSONDecoder()
         guard let data = from else { return nil }
         do {
-            let objects = try decoder.decode(type.self, from: data)
+            let objects = try decoder.decode(type.self,
+                                             from: data)
             return objects
         } catch let jsonError {
             print("Failed to decode JSON", jsonError)

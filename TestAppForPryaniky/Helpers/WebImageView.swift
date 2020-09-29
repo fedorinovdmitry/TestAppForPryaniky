@@ -7,6 +7,7 @@
 
 import UIKit
 
+///Вьюшка которая сама умеет в интернет и кеш
 class WebImageView: UIImageView {
     
     override var image: UIImage? {

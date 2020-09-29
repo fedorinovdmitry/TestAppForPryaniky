@@ -7,6 +7,7 @@
 
 import UIKit
 
+///делегат который будет показывать и закрывать список вариантов селектора
 protocol CellPopoverDelegate: class {
     func showPopoverVC(vc: UIViewController)
     func closePopoverVC()
@@ -74,7 +75,7 @@ final class SelectorMainListCellView: UITableViewCell {
         }
     }
     
-    // MARK: - Create Elements
+    // MARK: - Create and set up Elements
 
     let containerView: UIView = {
         let view = UIView()
@@ -148,6 +149,8 @@ final class SelectorMainListCellView: UITableViewCell {
 
 // MARK: - Extension
 
+// MARK: - UIPopoverPresentationControllerDelegate
+
 extension SelectorMainListCellView: UIPopoverPresentationControllerDelegate {
     
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
@@ -155,6 +158,8 @@ extension SelectorMainListCellView: UIPopoverPresentationControllerDelegate {
     }
     
 }
+
+// MARK: - PopTableEventDelegate
 
 extension SelectorMainListCellView: PopTableEventDelegate {
     func dismissWith(variant: Variant) {
